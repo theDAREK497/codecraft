@@ -6,9 +6,11 @@ var y = canvas.height-30;
 var dx = 2;
 var dy = -2;
 var paddleHeight = 10;
-var paddleWidth = 75;
+var paddleWidth = 7500;
 var paddleX = (canvas.width-paddleWidth)/2;
 var paddleY = (canvas.height-paddleHeight);
+var paddleX_enemy = (canvas.width-paddleWidth)/2;
+var paddleY_enemy = paddleHeight * 3;
 var rightPressed = false;
 var leftPressed = false;
 var New_Color="#0095DD"; //для рандома
@@ -20,12 +22,13 @@ var brickPadding = 10;
 var brickOffsetTop = 30;
 var brickOffsetLeft = 30;
 var lives = 3;
+var enemyLives = 3;
 
 var bricks = [];  //массив кирпичей
 for(var c=0; c<brickColumnCount; c++) {
     bricks[c] = [];
     for(var r=0; r<brickRowCount; r++) {
-        bricks[c][r] = { x: 0, y: 0, status: 1 };
+        bricks[c][r] = { x: 0, y: 0, status: 0 };
     }
 }
 
@@ -72,8 +75,13 @@ function mouseMoveHandler(e) {
 //======================================================================================================================
 function drawLives() {
     ctx.font = "16px Arial";
-    ctx.fillStyle = "#ff0000";
-    ctx.fillText("Lives: "+lives, canvas.width-65, 20);
+    ctx.fillStyle = "#FF0000";
+    ctx.fillText("Your Lives: "+lives, 10, 15);
+}
+function drawLives_enemy() {
+    ctx.font = "16px Arial";
+    ctx.fillStyle = "#FF0000";
+    ctx.fillText("Enemy Lives: "+enemyLives, canvas.width-120, 15);
 }
 function drawBall() {
     ctx.beginPath();
@@ -85,7 +93,14 @@ function drawBall() {
 function drawPaddle() {
     ctx.beginPath();
     ctx.rect(paddleX, canvas.height-paddleHeight * 2, paddleWidth, paddleHeight);
-    ctx.fillStyle = New_Color;
+    ctx.fillStyle = "#0095DD";
+    ctx.fill();
+    ctx.closePath();
+}
+function drawPaddle_enemy() {
+    ctx.beginPath();
+    ctx.rect(paddleX_enemy, paddleY_enemy, paddleWidth, paddleHeight);
+    ctx.fillStyle = "#DD9500";
     ctx.fill();
     ctx.closePath();
 }
@@ -99,7 +114,7 @@ function drawBricks() {
                 bricks[c][r].y = brickY;
                 ctx.beginPath();
                 ctx.rect(brickX, brickY, brickWidth, brickHeight);
-                ctx.fillStyle = New_Color;
+                ctx.fillStyle = "#00dd00";
                 ctx.fill();
                 ctx.closePath();
             }
@@ -127,34 +142,55 @@ function draw() {
     ctx.clearRect(0, 0, canvas.width, canvas.height);
     drawBricks();
     drawLives();
+    drawLives_enemy();
     drawBall();
     drawPaddle();
+    drawPaddle_enemy();
     collisionDetection();
 
     if(x + dx > canvas.width-ballRadius || x + dx < ballRadius) {
         dx = -dx;
     }
-    if(y +  dy < ballRadius) {
-        dy = -dy;
-    }
-    else if(y + dy > canvas.height-ballRadius) {
+    if(y + dy > canvas.height-ballRadius) {
         lives--;
         if(!lives) {
             alert("GAME OVER");
             document.location.reload();
         }
         else {
-            New_Color = Random_Color;
             x = canvas.width/2;
             y = canvas.height-30;
             dx = 2;
             dy = -2;
             paddleX = (canvas.width-paddleWidth)/2;
+            paddleX_enemy = (canvas.width-paddleWidth)/2;
         }
     }
-    if (y + dy == paddleY-paddleHeight) {
+    if (y + dy == paddleY-paddleHeight-ballRadius) {
         if (x > paddleX && x < paddleX + paddleWidth) {
             dy = -dy;
+            New_Color="#0095DD";
+        }
+    }
+    if(y + dy < ballRadius) {
+        enemyLives--;
+        if(!enemyLives) {
+            alert("YOU WIN");
+            document.location.reload();
+        }
+        else {
+            x = canvas.width/2;
+            y = paddleY_enemy+10;
+            dx = 2;
+            dy = 2;
+            paddleX = (canvas.width-paddleWidth)/2;
+            paddleX_enemy = (canvas.width-paddleWidth)/2;
+        }
+    }
+    if (y - dy === paddleY_enemy+paddleHeight+ballRadius) {
+        if (x > paddleX_enemy && x < paddleX_enemy+paddleWidth) {
+            dy = -dy;
+            New_Color="#DD9500";
         }
     }
 
