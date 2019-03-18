@@ -17,7 +17,6 @@ var New_Color="#0095DD"; //для рандома
 var Enemy_Color="#DD9500";
 var Player_Color="#0095DD";
 var color_cout_damage; //таймер после получения урона
-var stupid_brain; //мозг бота
 var brickRowCount = 3;
 var brickColumnCount = 5;
 var brickWidth = 75;
@@ -53,7 +52,8 @@ function Random_Color() {
 // ИИ
 //======================================================================================================================
 function Enemy_Paddle_Control(target_x) {
-	stupid_brain=Math.floor(Math.random()*100)-50;
+	var stupid_brain; //мозг бота	
+	stupid_brain=0//Math.floor(Math.random()*50)-50;
 	paddleX_enemy = target_x+stupid_brain;
 }
 //======================================================================================================================
@@ -178,10 +178,11 @@ function draw() {
         else {
 			Player_Color="#FF0000";
 			color_cout_damage = 15;
-            y = paddleY-30+ballRadius;
+            y = paddleY-30+ballRadius;			
 			paddleX = x;
             dx = 2;
             dy = 2;
+			sleep(10);
         }
     }
     if (y + dy == paddleY-paddleHeight) {
@@ -197,12 +198,13 @@ function draw() {
             document.location.reload();
         }
         else {
-			Enemy_Color="#FF0000";
+			Enemy_Color="#FF0000";			
 			color_cout_damage = 15;
             y = paddleY_enemy+30+ballRadius;
 			paddleX_enemy = x;
             dx = 2;
-            dy = 2;            
+            dy = 2;
+			sleep(10);	            
         }
     }
     if (y + dy == paddleY_enemy+paddleHeight) {
