@@ -17,8 +17,9 @@ var New_Color="#0095DD"; //для рандома
 var Enemy_Color="#DD9500";
 var Player_Color="#0095DD";
 var color_cout_damage; //таймер после получения урона
+var stupid_brain; //мозг бота
 var brickRowCount = 3;
-var brickColumnCount = 7;
+var brickColumnCount = 5;
 var brickWidth = 75;
 var brickHeight = 20;
 var brickPadding = 10;
@@ -52,7 +53,8 @@ function Random_Color() {
 // ИИ
 //======================================================================================================================
 function Enemy_Paddle_Control(target_x) {
-	paddleX_enemy = target_x;
+	stupid_brain=Math.floor(Math.random()*100)-50;
+	paddleX_enemy = target_x+stupid_brain;
 }
 //======================================================================================================================
 // Управление
@@ -75,7 +77,7 @@ function keyUpHandler(e) {
 }
 function mouseMoveHandler(e) {
     var relativeX = e.clientX - canvas.offsetLeft;
-    if(relativeX > 0 && relativeX < canvas.width) {
+    if(relativeX > paddleWidth/2 && relativeX < canvas.width-paddleWidth/2) {
         paddleX = relativeX - paddleWidth/2;
     }
 }
@@ -155,7 +157,7 @@ function draw() {
     drawBall();
     drawPaddle();
     drawPaddle_enemy();
-    collisionDetection();
+    collisionDetection();		
 	if (color_cout_damage == 0){
 		Enemy_Color="#DD9500";
 		Player_Color="#0095DD";
@@ -176,14 +178,14 @@ function draw() {
         else {
 			Player_Color="#FF0000";
 			color_cout_damage = 15;
-            y = paddleY-20;
+            y = paddleY-30+ballRadius;
 			paddleX = x;
             dx = 2;
             dy = 2;
         }
     }
     if (y + dy == paddleY-paddleHeight) {
-        if (x > paddleX && x < paddleX + paddleWidth) {
+        if (x > paddleX-5 && x < paddleX + paddleWidth) {
             dy = -dy;
             New_Color="#0095DD";
         }
@@ -197,28 +199,35 @@ function draw() {
         else {
 			Enemy_Color="#FF0000";
 			color_cout_damage = 15;
-            y = paddleY_enemy+20;
+            y = paddleY_enemy+30+ballRadius;
 			paddleX_enemy = x;
             dx = 2;
             dy = 2;            
         }
     }
     if (y + dy == paddleY_enemy+paddleHeight) {
-        if (x > paddleX_enemy && x < paddleX_enemy	+paddleWidth) {
+        if (x > paddleX_enemy-5 && x < paddleX_enemy	+paddleWidth) {
             dy = -dy;
             New_Color="#DD9500";
         }
     }
 
-    if(rightPressed && paddleX < canvas.width-paddleWidth) {
+    if((rightPressed && paddleX < canvas.width-paddleWidth)) {
         paddleX += 7;
     }
-    else if(leftPressed && paddleX > 0) {
+    else if((leftPressed && paddleX > 0)) {
         paddleX -= 7;
+    }
+	
+	if((paddleX_enemy < canvas.width-paddleWidth)) {
+        paddleX_enemy += 7;
+    }
+    else if((paddleX_enemy > 0)) {
+        paddleX_enemy -= 7;
     }
 		
 	x += dx;
-	Enemy_Paddle_Control(x-10);
+	Enemy_Paddle_Control(x);
     y += dy;
 }
 //======================================================================================================================
