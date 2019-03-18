@@ -13,10 +13,10 @@ var paddleX_enemy = (canvas.width-paddleWidth)/2;
 var paddleY_enemy = paddleHeight * 3;
 var rightPressed = false;
 var leftPressed = false;
-var New_Color="#0095DD"; //для рандома
+var New_Color="#0095DD"; //for random
 var Enemy_Color="#DD9500";
 var Player_Color="#0095DD";
-var color_cout_damage; //таймер после получения урона
+var color_cout_damage; //damage timer
 var brickRowCount = 3;
 var brickColumnCount = 5;
 var brickWidth = 75;
@@ -27,7 +27,7 @@ var brickOffsetLeft = 30;
 var lives = 3;
 var enemyLives = 3;
 
-var bricks = [];  //массив кирпичей
+var bricks = [];  //mass bricks
 for(var c=0; c<brickColumnCount; c++) {
     bricks[c] = [];
     for(var r=0; r<brickRowCount; r++) {
@@ -35,29 +35,29 @@ for(var c=0; c<brickColumnCount; c++) {
     }
 }
 
-document.addEventListener("keydown", keyDownHandler, false); //подключение элементов
+document.addEventListener("keydown", keyDownHandler, false); //connect elements
 document.addEventListener("keyup", keyUpHandler, false);
 document.addEventListener("mousemove", mouseMoveHandler, false);
 //======================================================================================================================
-// Доп. функции
+// Functions
 //======================================================================================================================
 function Random_Color() {
-    var result = 'rgb('
+    let result = 'rgb('
         + (Math.floor(Math.random() * 256)) + ','
         + (Math.floor(Math.random() * 256)) + ','
         + (Math.floor(Math.random() * 256)) + ')';
     return result;
 }
 //======================================================================================================================
-// ИИ
+// AI
 //======================================================================================================================
 function Enemy_Paddle_Control(target_x) {
-	var stupid_brain; //мозг бота	
+    let stupid_brain; //мозг бота
 	stupid_brain=0;//Math.floor(Math.random()*50)-50;
 	paddleX_enemy = target_x+stupid_brain;
 }
 //======================================================================================================================
-// Управление
+// Control
 //======================================================================================================================
 function keyDownHandler(e) {
     if(e.keyCode == 39) {
@@ -76,13 +76,13 @@ function keyUpHandler(e) {
     }
 }
 function mouseMoveHandler(e) {
-    var relativeX = e.clientX - canvas.offsetLeft;
+    let relativeX = e.clientX - canvas.offsetLeft;
     if(relativeX > paddleWidth/2 && relativeX < canvas.width-paddleWidth/2) {
         paddleX = relativeX - paddleWidth/2;
     }
 }
 //======================================================================================================================
-// Отрисовка объекта
+// Draw objects
 //======================================================================================================================
 function drawLives() {
     ctx.font = "16px Arial";
@@ -116,8 +116,8 @@ function drawPaddle_enemy() {
     ctx.closePath();
 }
 function drawBricks() {
-    for(var c=0; c<brickColumnCount; c++) {
-        for(var r=0; r<brickRowCount; r++) {
+    for(let c=0; c<brickColumnCount; c++) {
+        for(let r=0; r<brickRowCount; r++) {
             if(bricks[c][r].status == 1) {
                 var brickX = (c*(brickWidth+brickPadding))+brickOffsetLeft;
                 var brickY = (r*(brickHeight+brickPadding))+brickOffsetTop+canvas.height/3;
@@ -133,12 +133,12 @@ function drawBricks() {
     }
 }
 //======================================================================================================================
-// Взаимодействие с окружением
+// Environment
 //======================================================================================================================
 function collisionDetection() {
-    for(var c=0; c<brickColumnCount; c++) {
-        for(var r=0; r<brickRowCount; r++) {
-            var b = bricks[c][r];
+    for(let c=0; c<brickColumnCount; c++) {
+        for(let r=0; r<brickRowCount; r++) {
+            let b = bricks[c][r];
             if(b.status == 1) {
                 if(x > b.x && x < b.x+brickWidth && y > b.y && y < b.y+brickHeight) {
                     dy = -dy;
@@ -233,6 +233,6 @@ function draw() {
     y += dy;
 }
 //======================================================================================================================
-// Основная часть
+// Main path
 //======================================================================================================================
 setInterval(draw, 10);
