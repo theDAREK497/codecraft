@@ -53,7 +53,7 @@ function Random_Color() {
 //======================================================================================================================
 function Enemy_Paddle_Control(target_x) {
 	var stupid_brain; //мозг бота	
-	stupid_brain=0//Math.floor(Math.random()*50)-50;
+	stupid_brain=0;//Math.floor(Math.random()*50)-50;
 	paddleX_enemy = target_x+stupid_brain;
 }
 //======================================================================================================================
