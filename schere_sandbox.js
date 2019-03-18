@@ -14,6 +14,9 @@ var paddleY_enemy = paddleHeight * 3;
 var rightPressed = false;
 var leftPressed = false;
 var New_Color="#0095DD"; //для рандома
+var Enemy_Color="#DD9500";
+var Player_Color="#0095DD";
+var color_cout_damage; //таймер после получения урона
 var brickRowCount = 3;
 var brickColumnCount = 7;
 var brickWidth = 75;
@@ -99,14 +102,14 @@ function drawBall() {
 function drawPaddle() {
     ctx.beginPath();
     ctx.rect(paddleX, canvas.height-paddleHeight * 2, paddleWidth, paddleHeight);
-    ctx.fillStyle = "#0095DD";
+    ctx.fillStyle =Player_Color;//"#0095DD";
     ctx.fill();
     ctx.closePath();
 }
 function drawPaddle_enemy() {
     ctx.beginPath();
     ctx.rect(paddleX_enemy, paddleY_enemy, paddleWidth, paddleHeight);
-    ctx.fillStyle = "#DD9500";
+    ctx.fillStyle =Enemy_Color;//"#DD9500";
     ctx.fill();
     ctx.closePath();
 }
@@ -153,6 +156,13 @@ function draw() {
     drawPaddle();
     drawPaddle_enemy();
     collisionDetection();
+	if (color_cout_damage == 0){
+		Enemy_Color="#DD9500";
+		Player_Color="#0095DD";
+	}
+	else {
+		color_cout_damage--;
+	}
 
     if(x + dx > canvas.width-ballRadius || x + dx < ballRadius) {
         dx = -dx;
@@ -164,12 +174,12 @@ function draw() {
             document.location.reload();
         }
         else {
-            x = canvas.width/2;
-            y = canvas.height-30;
+			Player_Color="#FF0000";
+			color_cout_damage = 15;
+            y = paddleY-20;
+			paddleX = x;
             dx = 2;
-            dy = -2;
-            paddleX = (canvas.width-paddleWidth)/2;
-            paddleX_enemy = (canvas.width-paddleWidth)/2;
+            dy = 2;
         }
     }
     if (y + dy == paddleY-paddleHeight) {
@@ -185,12 +195,12 @@ function draw() {
             document.location.reload();
         }
         else {
-            x = canvas.width/2;
-            y = paddleY_enemy+10;
+			Enemy_Color="#FF0000";
+			color_cout_damage = 15;
+            y = paddleY_enemy+20;
+			paddleX_enemy = x;
             dx = 2;
-            dy = 2;
-            paddleX = (canvas.width-paddleWidth)/2;
-            paddleX_enemy = (canvas.width-paddleWidth)/2;
+            dy = 2;            
         }
     }
     if (y + dy == paddleY_enemy+paddleHeight) {
@@ -206,9 +216,9 @@ function draw() {
     else if(leftPressed && paddleX > 0) {
         paddleX -= 7;
     }
-
-	Enemy_Paddle_Control(x);
-    x += dx;
+		
+	x += dx;
+	Enemy_Paddle_Control(x-10);
     y += dy;
 }
 //======================================================================================================================
