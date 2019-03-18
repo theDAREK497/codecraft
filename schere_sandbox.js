@@ -6,7 +6,7 @@ var y = canvas.height-30;
 var dx = 2;
 var dy = -2;
 var paddleHeight = 10;
-var paddleWidth = 7500;
+var paddleWidth = 75;
 var paddleX = (canvas.width-paddleWidth)/2;
 var paddleY = (canvas.height-paddleHeight);
 var paddleX_enemy = (canvas.width-paddleWidth)/2;
@@ -14,7 +14,7 @@ var paddleY_enemy = paddleHeight * 3;
 var rightPressed = false;
 var leftPressed = false;
 var New_Color="#0095DD"; //для рандома
-var brickRowCount = 5;
+var brickRowCount = 3;
 var brickColumnCount = 7;
 var brickWidth = 75;
 var brickHeight = 20;
@@ -28,7 +28,7 @@ var bricks = [];  //массив кирпичей
 for(var c=0; c<brickColumnCount; c++) {
     bricks[c] = [];
     for(var r=0; r<brickRowCount; r++) {
-        bricks[c][r] = { x: 0, y: 0, status: 0 };
+        bricks[c][r] = { x: 0, y: 0, status: 1 };
     }
 }
 
@@ -44,6 +44,12 @@ function Random_Color() {
         + (Math.floor(Math.random() * 256)) + ','
         + (Math.floor(Math.random() * 256)) + ')';
     return result;
+}
+//======================================================================================================================
+// ИИ
+//======================================================================================================================
+function Enemy_Paddle_Control(target_x) {
+	paddleX_enemy = target_x;
 }
 //======================================================================================================================
 // Управление
@@ -166,7 +172,7 @@ function draw() {
             paddleX_enemy = (canvas.width-paddleWidth)/2;
         }
     }
-    if (y + dy == paddleY-paddleHeight-ballRadius) {
+    if (y + dy == paddleY-paddleHeight) {
         if (x > paddleX && x < paddleX + paddleWidth) {
             dy = -dy;
             New_Color="#0095DD";
@@ -187,8 +193,8 @@ function draw() {
             paddleX_enemy = (canvas.width-paddleWidth)/2;
         }
     }
-    if (y - dy === paddleY_enemy+paddleHeight+ballRadius) {
-        if (x > paddleX_enemy && x < paddleX_enemy+paddleWidth) {
+    if (y + dy == paddleY_enemy+paddleHeight) {
+        if (x > paddleX_enemy && x < paddleX_enemy	+paddleWidth) {
             dy = -dy;
             New_Color="#DD9500";
         }
@@ -201,6 +207,7 @@ function draw() {
         paddleX -= 7;
     }
 
+	Enemy_Paddle_Control(x);
     x += dx;
     y += dy;
 }
