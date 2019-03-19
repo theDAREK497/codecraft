@@ -1,8 +1,5 @@
-var canvas = document.getElementById("myCanvas");
-var ctx = canvas.getContext("2d");
-var ballRadius = 10;
-var x = canvas.width/2;
-var y = canvas.height-30;
+const canvas = document.getElementById("myCanvas");
+const ctx = canvas.getContext("2d");
 var dx = 2;
 var dy = -2;
 var paddleHeight = 10;
@@ -17,7 +14,7 @@ var New_Color="#0095DD"; //for random
 var Enemy_Color="#DD9500";
 var Player_Color="#0095DD";
 var color_cout_damage; //damage timer
-var brickRowCount = 3;
+var brickRowCount = 4;
 var brickColumnCount = 5;
 var brickWidth = 75;
 var brickHeight = 20;
@@ -27,11 +24,36 @@ var brickOffsetLeft = 30;
 var lives = 3;
 var enemyLives = 3;
 
-var bricks = [];  //mass bricks
+let bricks = [];  //mass bricks
 for(var c=0; c<brickColumnCount; c++) {
     bricks[c] = [];
     for(var r=0; r<brickRowCount; r++) {
-        bricks[c][r] = { x: 0, y: 0, status: 1 };
+        bricks[c][r] = { x: 0, y: 0, status: (Math.random()>0.5)? 1 : 0  };
+    }
+}
+
+class Ball {
+    x;
+    y;
+    ballRadius;
+    ballColor;
+    ctx = canvas.getContext("2d");
+    constructor(x, y) {
+        this.x = x;
+        this.y = y;
+        this.ballRadius=10;
+        this.ballColor="#0095DD";
+    }
+    drawBall(x, y, ballRadius, ballColor) {
+        this.ctx.beginPath();
+        this.ctx.arc(x, y, ballRadius, 0, Math.PI*2);
+        this.ctx.fillStyle = ballColor;
+        this.ctx.fill();
+        this.ctx.closePath();
+    }
+    moveBall(dx, dy){
+        this.x += dx;
+        this.y += dy;
     }
 }
 
@@ -41,6 +63,9 @@ document.addEventListener("mousemove", mouseMoveHandler, false);
 //======================================================================================================================
 // Functions
 //======================================================================================================================
+/**
+ * @return {string}
+ */
 function Random_Color() {
     let result = 'rgb('
         + (Math.floor(Math.random() * 256)) + ','
@@ -60,18 +85,18 @@ function Enemy_Paddle_Control(target_x) {
 // Control
 //======================================================================================================================
 function keyDownHandler(e) {
-    if(e.keyCode == 39) {
+    if(e.keyCode === 39) {
         rightPressed = true;
     }
-    else if(e.keyCode == 37) {
+    else if(e.keyCode === 37) {
         leftPressed = true;
     }
 }
 function keyUpHandler(e) {
-    if(e.keyCode == 39) {
+    if(e.keyCode === 39) {
         rightPressed = false;
     }
-    else if(e.keyCode == 37) {
+    else if(e.keyCode === 37) {
         leftPressed = false;
     }
 }
@@ -94,13 +119,6 @@ function drawLives_enemy() {
     ctx.fillStyle = "#FF0000";
     ctx.fillText("Enemy Lives: "+enemyLives, canvas.width-120, 15);
 }
-function drawBall() {
-    ctx.beginPath();
-    ctx.arc(x, y, ballRadius, 0, Math.PI*2);
-    ctx.fillStyle = New_Color;
-    ctx.fill();
-    ctx.closePath();
-}
 function drawPaddle() {
     ctx.beginPath();
     ctx.rect(paddleX, canvas.height-paddleHeight * 2, paddleWidth, paddleHeight);
@@ -118,7 +136,7 @@ function drawPaddle_enemy() {
 function drawBricks() {
     for(let c=0; c<brickColumnCount; c++) {
         for(let r=0; r<brickRowCount; r++) {
-            if(bricks[c][r].status == 1) {
+            if(bricks[c][r].status === 1) {
                 var brickX = (c*(brickWidth+brickPadding))+brickOffsetLeft;
                 var brickY = (r*(brickHeight+brickPadding))+brickOffsetTop+canvas.height/3;
                 bricks[c][r].x = brickX;
@@ -135,11 +153,11 @@ function drawBricks() {
 //======================================================================================================================
 // Environment
 //======================================================================================================================
-function collisionDetection() {
+function collisionDetection(x,y) {
     for(let c=0; c<brickColumnCount; c++) {
         for(let r=0; r<brickRowCount; r++) {
             let b = bricks[c][r];
-            if(b.status == 1) {
+            if(b.status === 1) {
                 if(x > b.x && x < b.x+brickWidth && y > b.y && y < b.y+brickHeight) {
                     dy = -dy;
                     b.status = 0;
@@ -149,16 +167,17 @@ function collisionDetection() {
     }
 }
 
-function draw() {
+function draw(ball) {
+    let New_Radius = 10;
     ctx.clearRect(0, 0, canvas.width, canvas.height);
     drawBricks();
     drawLives();
     drawLives_enemy();
-    drawBall();
+    ball.drawBall( ball.x, ball.y, New_Radius, New_Color);
     drawPaddle();
     drawPaddle_enemy();
-    collisionDetection();		
-	if (color_cout_damage == 0){
+    collisionDetection(ball.x, ball.y);
+	if (color_cout_damage === 0){
 		Enemy_Color="#DD9500";
 		Player_Color="#0095DD";
 	}
@@ -166,53 +185,53 @@ function draw() {
 		color_cout_damage--;
 	}
 
-    if(x + dx > canvas.width-ballRadius || x + dx < ballRadius) {
+    if(ball.x + dx > canvas.width-ball.ballRadius || ball.x + dx < ball.ballRadius) {
         dx = -dx;
     }
-    if(y + dy > canvas.height-ballRadius) {
-        lives--;
-        if(!lives) {
-            alert("GAME OVER");
-            document.location.reload();
-        }
-        else {
-			Player_Color="#FF0000";
-			color_cout_damage = 15;
-            y = paddleY-30+ballRadius;			
-			paddleX = x;
+     if(ball.y + dy > canvas.height-ball.ballRadius) {
+         lives--;
+         if(!lives) {
+             alert("GAME OVER");
+             document.location.reload();
+         }
+         else {
+	 		Player_Color="#FF0000";
+	 		color_cout_damage = 15;
+	 		ball.y = paddleY-30+ball.ballRadius;
+	 		paddleX = ball.x;
             dx = 2;
             dy = 2;
-			sleep(10);
-        }
-    }
-    if (y + dy == paddleY-paddleHeight) {
-        if (x > paddleX-5 && x < paddleX + paddleWidth) {
-            dy = -dy;
-            New_Color="#0095DD";
-        }
-    }
-    if(y + dy < ballRadius) {
-        enemyLives--;
-        if(!enemyLives) {
-            alert("YOU WIN");
-            document.location.reload();
-        }
-        else {
-			Enemy_Color="#FF0000";			
-			color_cout_damage = 15;
-            y = paddleY_enemy+30+ballRadius;
-			paddleX_enemy = x;
+	 		sleep(10);
+         }
+     }
+     if (ball.y + dy === paddleY-paddleHeight) {
+         if (ball.x > paddleX-5 && ball.x < paddleX + paddleWidth) {
+             dy = -dy;
+             New_Color="#0095DD";
+         }
+     }
+     if(ball.y + dy < ball.ballRadius) {
+         enemyLives--;
+         if(!enemyLives) {
+             alert("YOU WIN");
+             document.location.reload();
+         }
+         else {
+	 		Enemy_Color="#FF0000";
+	 		color_cout_damage = 15;
+            ball.y = paddleY_enemy+30+ball.ballRadius;
+	 		paddleX_enemy = ball.x;
             dx = 2;
             dy = 2;
-			sleep(10);	            
-        }
-    }
-    if (y + dy == paddleY_enemy+paddleHeight) {
-        if (x > paddleX_enemy-5 && x < paddleX_enemy	+paddleWidth) {
-            dy = -dy;
-            New_Color="#DD9500";
-        }
-    }
+	 		sleep(10);
+         }
+     }
+     if (ball.y + dy === paddleY_enemy+paddleHeight) {
+         if (ball.x > paddleX_enemy-5 && ball.x < paddleX_enemy + paddleWidth) {
+             dy = -dy;
+             New_Color="#DD9500";
+         }
+     }
 
     if((rightPressed && paddleX < canvas.width-paddleWidth)) {
         paddleX += 7;
@@ -220,19 +239,25 @@ function draw() {
     else if((leftPressed && paddleX > 0)) {
         paddleX -= 7;
     }
-	
+
 	if((paddleX_enemy < canvas.width-paddleWidth)) {
         paddleX_enemy += 7;
     }
     else if((paddleX_enemy > 0)) {
         paddleX_enemy -= 7;
     }
-		
-	x += dx;
-	Enemy_Paddle_Control(x);
-    y += dy;
+
+    ball.moveBall(dx,dy);
+    Enemy_Paddle_Control(ball.x);
 }
 //======================================================================================================================
 // Main path
 //======================================================================================================================
-setInterval(draw, 10);
+function gameplay() {    //typo javascript costili
+    draw(m_ball);
+}
+//======================================================================================================================
+const m_ball = new Ball(canvas.width / 2, canvas.height - 30);
+setInterval( gameplay, 10);
+delete(m_ball);
+//======================================================================================================================
