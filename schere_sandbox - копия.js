@@ -32,21 +32,24 @@ for(var c=0; c<brickColumnCount; c++) {
     }
 }
 
-
 class Ball {
-
-    constructor(m_x, m_y) {
-        this.x = m_x;
-        this.y = m_y;
+    x;
+    y;
+    ballRadius;
+    ballColor;
+    ctx = canvas.getContext("2d");
+    constructor(x, y) {
+        this.x = x;
+        this.y = y;
         this.ballRadius=10;
         this.ballColor="#0095DD";
     }
-    drawBall(m_x, m_y, m_ballRadius, m_ballColor) {
-        ctx.beginPath();
-        ctx.arc(m_x, m_y, m_ballRadius, 0, Math.PI*2);
-        ctx.fillStyle = m_ballColor;
-        ctx.fill();
-        ctx.closePath();
+    drawBall(x, y, ballRadius, ballColor) {
+        this.ctx.beginPath();
+        this.ctx.arc(x, y, ballRadius, 0, Math.PI*2);
+        this.ctx.fillStyle = ballColor;
+        this.ctx.fill();
+        this.ctx.closePath();
     }
     moveBall(dx, dy){
         this.x += dx;
