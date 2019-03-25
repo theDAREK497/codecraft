@@ -167,11 +167,7 @@ function collisionDetection(x,y) {
 }
 
 function draw(ball, player, enemy) {
-<<<<<<< HEAD
     let New_Radius = 8;
-=======
-    let New_Radius = 10;
->>>>>>> 7dc6ab7eaf067c4cf24f458b1a9cc592f5976b1d
     ctx.clearRect(0, 0, canvas.width, canvas.height);
     drawBricks();
     drawLives();
@@ -214,7 +210,6 @@ function draw(ball, player, enemy) {
         }
     }
     if ((ball.y + dy === player.y) || (ball.y + dy === player.y + player.height)) {
-<<<<<<< HEAD
         if (ball.x > player.x - 8 && ball.x < player.x + player.paddleWidth + 8) {
             dy *= -1;
             if (ball.x <= player.x + 2) {
@@ -228,15 +223,6 @@ function draw(ball, player, enemy) {
             }
             else if (ball.x >= player.x + player.paddleWidth - 15) {
                 dx = -3;
-=======
-        if (ball.x > player.x - 5 && ball.x < player.x + player.paddleWidth + 5) {
-            dy *= -1;
-            if (ball.x <= player.x + 15) {
-                dx = -6;
-            }
-            else if (ball.x >= player.x + player.paddleWidth - 15) {
-                dx = 6;
->>>>>>> 7dc6ab7eaf067c4cf24f458b1a9cc592f5976b1d
             }
             else if (Math.abs(dx) === 6) {
                 dx = (dx * 2 / 3) | 0;
@@ -261,7 +247,6 @@ function draw(ball, player, enemy) {
             sleep(30);
         }
     }
-<<<<<<< HEAD
     if (ball.y -  ball.ballRadius + dy === enemy.y) {
         if (ball.x > enemy.x - 8 && ball.x < enemy.x + 8 + enemy.paddleWidth) {
             dy *= -1;
@@ -276,16 +261,6 @@ function draw(ball, player, enemy) {
             }
             else if (ball.x >= enemy.x + enemy.paddleWidth - 15) {
                 dx = -3;
-=======
-    if ((ball.y + dy === enemy.y) || (ball.y + dy === enemy.y + enemy.height)) {
-        if (ball.x > enemy.x - 5 && ball.x < enemy.x + 5 + enemy.paddleWidth) {
-            dy *= -1;
-            if (ball.x <= enemy.x + 15) {
-                dx = -6;
-            }
-            else if (ball.x >= enemy.x + enemy.paddleWidth - 15) {
-                dx = 6;
->>>>>>> 7dc6ab7eaf067c4cf24f458b1a9cc592f5976b1d
             }
             else if (Math.abs(dx) === 6) {
                 dx = (dx * 2 / 3) | 0;
@@ -296,40 +271,24 @@ function draw(ball, player, enemy) {
                                                                                                                         // Sorry for this govnocode                     //
     if((rightPressed && player.x < canvas.width-player.paddleWidth) ||                                                  // Right arrow key pressed = true               //
         ((mouse_x > player.x + player.paddleWidth/2 && player.x < canvas.width-player.paddleWidth) &&                   // Mouse to the right of the paddle.            //
-<<<<<<< HEAD
             (player.x + player.paddleWidth/2 < mouse_x - 4 || player.x + player.paddleWidth/2 > mouse_x + 4) &&         // Crazy paddle don't lags!!!                   //
-=======
-        (player.x + player.paddleWidth/2 < mouse_x - 4 || player.x + player.paddleWidth/2 > mouse_x + 4) &&             // Crazy paddle don't lags!!!                   //
->>>>>>> 7dc6ab7eaf067c4cf24f458b1a9cc592f5976b1d
             (mouse_x > 0 && mouse_x < canvas.width))) {                                                                 // Mouse in playable zone                       //
         player.x += 7;                                                                                                  // Move paddle to right                         //
     }                                                                                                                   //==============================================//
     else if ((leftPressed && player.x > 0) ||                                                                           // Left arrow key pressed = true                //
         ((mouse_x < player.x + player.paddleWidth/2 && player.x > 0) &&                                                 // Mouse to the left of the paddle.             //
-<<<<<<< HEAD
             (player.x + player.paddleWidth/2 < mouse_x - 4 || player.x + player.paddleWidth/2 > mouse_x + 4) &&         // Crazy paddle...                              //
-=======
-        (player.x + player.paddleWidth/2 < mouse_x - 4 || player.x + player.paddleWidth/2 > mouse_x + 4) &&             // Crazy paddle...                              //
->>>>>>> 7dc6ab7eaf067c4cf24f458b1a9cc592f5976b1d
             (mouse_x > 0 && mouse_x < canvas.width))) {                                                                 // Mouse in playable zone                       //
         player.x -= 7;                                                                                                  // Move paddle to left                          //
     }                                                                                                                   //==============================================//
                                                                                                                         // Enemy AI v1.0                                //
     if ((ball.x > enemy.x + enemy.paddleWidth/2 && enemy.x < canvas.width-enemy.paddleWidth) &&                         // Find ball                                    //
         (enemy.x + enemy.paddleWidth/2 < ball.x - 2 || enemy.x + enemy.paddleWidth/2 > ball.x + 2)) {                   // Blind area                                   //
-<<<<<<< HEAD
         enemy.x += 4;                                                                                                   // Move AI right                                //
     }                                                                                                                   //==============================================//
     else if((ball.x < enemy.x + enemy.paddleWidth/2 && enemy.x > 0) &&                                                  // This is the same for moving to the left      //
         (enemy.x + enemy.paddleWidth/2 < ball.x - 2 || enemy.x + enemy.paddleWidth/2 > ball.x + 2)) {                   //==============================================//
         enemy.x -= 4;
-=======
-        enemy.x += 5;                                                                                                   // Move AI right                                //
-    }                                                                                                                   //==============================================//
-    else if((ball.x < enemy.x + enemy.paddleWidth/2 && enemy.x > 0) &&                                                  // This is the same for moving to the left      //
-        (enemy.x + enemy.paddleWidth/2 < ball.x - 2 || enemy.x + enemy.paddleWidth/2 > ball.x + 2)) {                   //==============================================//
-        enemy.x -= 5;
->>>>>>> 7dc6ab7eaf067c4cf24f458b1a9cc592f5976b1d
     }
 
     ball.moveBall(dx,dy);
@@ -342,11 +301,7 @@ function gamely_sandbox() {    //typo javascript costili
 }
 //======================================================================================================================
 let m_ball = new Ball(canvas.width / 2, canvas.height - 30);
-<<<<<<< HEAD
 let m_player = new Paddle((canvas.width-PADDLE_WIDTH)/2, canvas.height - PADDLE_HEIGHT * 3, PADDLE_HEIGHT, PADDLE_WIDTH, "#0095DD");
-=======
-let m_player = new Paddle((canvas.width-PADDLE_WIDTH)/2, canvas.height - PADDLE_HEIGHT * 3, PADDLE_HEIGHT,PADDLE_WIDTH, "#0095DD");
->>>>>>> 7dc6ab7eaf067c4cf24f458b1a9cc592f5976b1d
 let m_enemy = new Paddle((canvas.width-PADDLE_WIDTH)/2, PADDLE_HEIGHT * 3, PADDLE_HEIGHT, PADDLE_WIDTH, "#DD9500");
 setInterval( gamely_sandbox, 10);
 delete(m_ball);
