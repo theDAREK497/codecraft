@@ -1,18 +1,18 @@
 const canvas = document.getElementById("myCanvas");
 const ctx = canvas.getContext("2d");
+const RED_COLOR ="#FF0000";
+const START_PLAYER_COLOR = "#0095DD";
+const START_ENEMY_COLOR = "#DD9500";
+var New_Color_Player=START_PLAYER_COLOR;
+var New_Color_Enemy=START_ENEMY_COLOR;
+var New_Color_Ball=New_Color_Player;
+const PADDLE_HEIGHT=10;
+const PADDLE_WIDTH=75;
+var mouse_x;
 var dx = 2;
 var dy = -2;
-var paddleHeight = 10;
-var paddleWidth = 75;
-var paddleX = (canvas.width-paddleWidth)/2;
-var paddleY = (canvas.height-paddleHeight);
-var paddleX_enemy = (canvas.width-paddleWidth)/2;
-var paddleY_enemy = paddleHeight * 3;
 var rightPressed = false;
 var leftPressed = false;
-var New_Color="#0095DD"; //for random
-var Enemy_Color="#DD9500";
-var Player_Color="#0095DD";
 var color_cout_damage; //damage timer
 var brickRowCount = 4;
 var brickColumnCount = 5;
@@ -21,8 +21,8 @@ var brickHeight = 20;
 var brickPadding = 10;
 var brickOffsetTop = 30;
 var brickOffsetLeft = 30;
-var lives = 3;
-var enemyLives = 3;
+var live_player = 3;
+var Live_enemy = 3;
 
 let bricks = [];  //mass bricks
 for(var c=0; c<brickColumnCount; c++) {
@@ -32,19 +32,35 @@ for(var c=0; c<brickColumnCount; c++) {
     }
 }
 
+class Paddle {
+    constructor(m_x, m_y, m_height, m_width, New_Color)
+    {
+        this.paddleHeight = m_height;
+        this.paddleWidth = m_width;
+        this.x = m_x;
+        this.y = m_y;
+        this.paddleColor=New_Color;
+    }
+    drawPaddle() {
+        ctx.beginPath();
+        ctx.rect(this.x, this.y , this.paddleWidth, this.paddleHeight);
+        ctx.fillStyle =this.paddleColor;
+        ctx.fill();
+        ctx.closePath();
+    }
+}
 
 class Ball {
-
     constructor(m_x, m_y) {
         this.x = m_x;
         this.y = m_y;
         this.ballRadius=10;
         this.ballColor="#0095DD";
     }
-    drawBall(m_x, m_y, m_ballRadius, m_ballColor) {
+    drawBall() {
         ctx.beginPath();
-        ctx.arc(m_x, m_y, m_ballRadius, 0, Math.PI*2);
-        ctx.fillStyle = m_ballColor;
+        ctx.arc(this.x, this.y, this.ballRadius, 0, Math.PI*2);
+        ctx.fillStyle = this.ballColor;
         ctx.fill();
         ctx.closePath();
     }
@@ -70,13 +86,9 @@ function Random_Color() {
         + (Math.floor(Math.random() * 256)) + ')';
     return result;
 }
-//======================================================================================================================
-// AI
-//======================================================================================================================
-function Enemy_Paddle_Control(target_x) {
-    let stupid_brain; //мозг бота
-	stupid_brain=0;//Math.floor(Math.random()*50)-50;
-	paddleX_enemy = target_x+stupid_brain;
+
+function sleep(ms) {
+    return new Promise(resolve => setTimeout(resolve, ms));
 }
 //======================================================================================================================
 // Control
@@ -99,37 +111,25 @@ function keyUpHandler(e) {
 }
 function mouseMoveHandler(e) {
     let relativeX = e.clientX - canvas.offsetLeft;
-    if(relativeX > paddleWidth/2 && relativeX < canvas.width-paddleWidth/2) {
-        paddleX = relativeX - paddleWidth/2;
-    }
+    // if(relativeX > PADDLE_WIDTH/2 && relativeX < canvas.width-PADDLE_WIDTH/2) {
+    //     mouse_x = relativeX - PADDLE_WIDTH/2;
+    // }
+    mouse_x = relativeX;
 }
 //======================================================================================================================
 // Draw objects
 //======================================================================================================================
 function drawLives() {
     ctx.font = "16px Arial";
-    ctx.fillStyle = "#FF0000";
-    ctx.fillText("Your Lives: "+lives, 10, 15);
+    ctx.fillStyle = RED_COLOR;
+    ctx.fillText("Your Lives: "+live_player, 10, 15);
 }
 function drawLives_enemy() {
     ctx.font = "16px Arial";
-    ctx.fillStyle = "#FF0000";
-    ctx.fillText("Enemy Lives: "+enemyLives, canvas.width-120, 15);
+    ctx.fillStyle = RED_COLOR;
+    ctx.fillText("Enemy Lives: "+Live_enemy, canvas.width-120, 15);
 }
-function drawPaddle() {
-    ctx.beginPath();
-    ctx.rect(paddleX, canvas.height-paddleHeight * 2, paddleWidth, paddleHeight);
-    ctx.fillStyle =Player_Color;//"#0095DD";
-    ctx.fill();
-    ctx.closePath();
-}
-function drawPaddle_enemy() {
-    ctx.beginPath();
-    ctx.rect(paddleX_enemy, paddleY_enemy, paddleWidth, paddleHeight);
-    ctx.fillStyle =Enemy_Color;//"#DD9500";
-    ctx.fill();
-    ctx.closePath();
-}
+
 function drawBricks() {
     for(let c=0; c<brickColumnCount; c++) {
         for(let r=0; r<brickRowCount; r++) {
@@ -156,7 +156,9 @@ function collisionDetection(x,y) {
             let b = bricks[c][r];
             if(b.status === 1) {
                 if(x > b.x && x < b.x+brickWidth && y > b.y && y < b.y+brickHeight) {
-                    dy = -dy;
+                    dy *= -1;
+                    if (dx < 0 && (x % 32 < 10 || x % 32 > 22)) dx *= -1;
+                    if (dx > 0 && ((x + 12) % 32 < 10 || (x + 12) % 32 > 22)) dx *= -1;
                     b.status = 0;
                 }
             }
@@ -164,97 +166,145 @@ function collisionDetection(x,y) {
     }
 }
 
-function draw(ball) {
-    let New_Radius = 10;
+function draw(ball, player, enemy) {
+    let New_Radius = 8;
     ctx.clearRect(0, 0, canvas.width, canvas.height);
     drawBricks();
     drawLives();
     drawLives_enemy();
-    ball.drawBall( ball.x, ball.y, New_Radius, New_Color);
-    drawPaddle();
-    drawPaddle_enemy();
+    ball.ballRadius=New_Radius;
+    ball.ballColor=New_Color_Ball;
+    enemy.paddleColor=New_Color_Enemy;
+    player.paddleColor=New_Color_Player;
+    ball.drawBall();
+    player.drawPaddle();
+    enemy.drawPaddle();
     collisionDetection(ball.x, ball.y);
-	if (color_cout_damage === 0){
-		Enemy_Color="#DD9500";
-		Player_Color="#0095DD";
-	}
-	else {
-		color_cout_damage--;
-	}
+
+    if (color_cout_damage === 0){
+        New_Color_Enemy=START_ENEMY_COLOR;
+        New_Color_Player=START_PLAYER_COLOR;
+    }
+    else {
+        color_cout_damage--;
+    }
 
     if(ball.x + dx > canvas.width-ball.ballRadius || ball.x + dx < ball.ballRadius) {
-        dx = -dx;
+        dx *= -1;
     }
-     if(ball.y + dy > canvas.height-ball.ballRadius) {
-         lives--;
-         if(!lives) {
-             alert("GAME OVER");
-             document.location.reload();
-         }
-         else {
-	 		Player_Color="#FF0000";
-	 		color_cout_damage = 15;
-	 		ball.y = paddleY-30+ball.ballRadius;
-	 		paddleX = ball.x;
+    if(ball.y + dy > canvas.height-ball.ballRadius) {
+        live_player--;
+        if(!live_player) {
+            alert("GAME OVER");
+            document.location.reload();
+        }
+        else {
+            New_Color_Player=RED_COLOR;
+            New_Color_Ball=RED_COLOR;
+            color_cout_damage = 15;
+            ball.y = player.y-30+ball.ballRadius;
+            player.x = ball.x;
+            dx = 2;
+            dy = -2;
+            sleep(30);
+        }
+    }
+    if ((ball.y + dy === player.y) || (ball.y + dy === player.y + player.height)) {
+        if (ball.x > player.x - 8 && ball.x < player.x + player.paddleWidth + 8) {
+            dy *= -1;
+            if (ball.x <= player.x + 2) {
+                dx = -5;
+            }
+            else if (ball.x >= player.x + player.paddleWidth - 2) {
+                dx = 5;
+            }
+            else if (ball.x <= player.x + 15) {
+                dx = 3;
+            }
+            else if (ball.x >= player.x + player.paddleWidth - 15) {
+                dx = -3;
+            }
+            else if (Math.abs(dx) === 6) {
+                dx = (dx * 2 / 3) | 0;
+            }
+            New_Color_Ball=New_Color_Player;
+        }
+    }
+    if(ball.y + dy < ball.ballRadius) {
+        Live_enemy--;
+        if(!Live_enemy) {
+            alert("YOU WIN");
+            document.location.reload();
+        }
+        else {
+            New_Color_Enemy=RED_COLOR;
+            New_Color_Ball=RED_COLOR;
+            color_cout_damage = 15;
+            ball.y = enemy.y+30+ball.ballRadius;
+            enemy.x = ball.x;
             dx = 2;
             dy = 2;
-	 		sleep(10);
-         }
-     }
-     if (ball.y + dy === paddleY-paddleHeight) {
-         if (ball.x > paddleX-5 && ball.x < paddleX + paddleWidth) {
-             dy = -dy;
-             New_Color="#0095DD";
-         }
-     }
-     if(ball.y + dy < ball.ballRadius) {
-         enemyLives--;
-         if(!enemyLives) {
-             alert("YOU WIN");
-             document.location.reload();
-         }
-         else {
-	 		Enemy_Color="#FF0000";
-	 		color_cout_damage = 15;
-            ball.y = paddleY_enemy+30+ball.ballRadius;
-	 		paddleX_enemy = ball.x;
-            dx = 2;
-            dy = 2;
-	 		sleep(10);
-         }
-     }
-     if (ball.y + dy === paddleY_enemy+paddleHeight) {
-         if (ball.x > paddleX_enemy-5 && ball.x < paddleX_enemy + paddleWidth) {
-             dy = -dy;
-             New_Color="#DD9500";
-         }
-     }
-
-    if((rightPressed && paddleX < canvas.width-paddleWidth)) {
-        paddleX += 7;
+            sleep(30);
+        }
     }
-    else if((leftPressed && paddleX > 0)) {
-        paddleX -= 7;
-    }
-
-	if((paddleX_enemy < canvas.width-paddleWidth)) {
-        paddleX_enemy += 7;
-    }
-    else if((paddleX_enemy > 0)) {
-        paddleX_enemy -= 7;
+    if (ball.y -  ball.ballRadius + dy === enemy.y) {
+        if (ball.x > enemy.x - 8 && ball.x < enemy.x + 8 + enemy.paddleWidth) {
+            dy *= -1;
+            if (ball.x <= enemy.x + 2) {
+                dx = -5;
+            }
+            else if (ball.x >= enemy.x + enemy.paddleWidth - 2) {
+                dx = 5;
+            }
+            else if (ball.x <= enemy.x + 15) {
+                dx = 3;
+            }
+            else if (ball.x >= enemy.x + enemy.paddleWidth - 15) {
+                dx = -3;
+            }
+            else if (Math.abs(dx) === 6) {
+                dx = (dx * 2 / 3) | 0;
+            }
+            New_Color_Ball=New_Color_Enemy;
+        }
+    }                                                                                                                   //==============================================//
+                                                                                                                        // Sorry for this govnocode                     //
+    if((rightPressed && player.x < canvas.width-player.paddleWidth) ||                                                  // Right arrow key pressed = true               //
+        ((mouse_x > player.x + player.paddleWidth/2 && player.x < canvas.width-player.paddleWidth) &&                   // Mouse to the right of the paddle.            //
+            (player.x + player.paddleWidth/2 < mouse_x - 4 || player.x + player.paddleWidth/2 > mouse_x + 4) &&         // Crazy paddle don't lags!!!                   //
+            (mouse_x > 0 && mouse_x < canvas.width))) {                                                                 // Mouse in playable zone                       //
+        player.x += 7;                                                                                                  // Move paddle to right                         //
+    }                                                                                                                   //==============================================//
+    else if ((leftPressed && player.x > 0) ||                                                                           // Left arrow key pressed = true                //
+        ((mouse_x < player.x + player.paddleWidth/2 && player.x > 0) &&                                                 // Mouse to the left of the paddle.             //
+            (player.x + player.paddleWidth/2 < mouse_x - 4 || player.x + player.paddleWidth/2 > mouse_x + 4) &&         // Crazy paddle...                              //
+            (mouse_x > 0 && mouse_x < canvas.width))) {                                                                 // Mouse in playable zone                       //
+        player.x -= 7;                                                                                                  // Move paddle to left                          //
+    }                                                                                                                   //==============================================//
+                                                                                                                        // Enemy AI v1.0                                //
+    if ((ball.x > enemy.x + enemy.paddleWidth/2 && enemy.x < canvas.width-enemy.paddleWidth) &&                         // Find ball                                    //
+        (enemy.x + enemy.paddleWidth/2 < ball.x - 2 || enemy.x + enemy.paddleWidth/2 > ball.x + 2)) {                   // Blind area                                   //
+        enemy.x += 4;                                                                                                   // Move AI right                                //
+    }                                                                                                                   //==============================================//
+    else if((ball.x < enemy.x + enemy.paddleWidth/2 && enemy.x > 0) &&                                                  // This is the same for moving to the left      //
+        (enemy.x + enemy.paddleWidth/2 < ball.x - 2 || enemy.x + enemy.paddleWidth/2 > ball.x + 2)) {                   //==============================================//
+        enemy.x -= 4;
     }
 
     ball.moveBall(dx,dy);
-    Enemy_Paddle_Control(ball.x);
 }
 //======================================================================================================================
 // Main path
 //======================================================================================================================
-function gameplay() {    //typo javascript costili
-    draw(m_ball);
+function gamely_sandbox() {    //typo javascript costili
+    draw(m_ball, m_player, m_enemy);
 }
 //======================================================================================================================
-const m_ball = new Ball(canvas.width / 2, canvas.height - 30);
-setInterval( gameplay, 10);
+let m_ball = new Ball(canvas.width / 2, canvas.height - 30);
+let m_player = new Paddle((canvas.width-PADDLE_WIDTH)/2, canvas.height - PADDLE_HEIGHT * 3, PADDLE_HEIGHT, PADDLE_WIDTH, "#0095DD");
+let m_enemy = new Paddle((canvas.width-PADDLE_WIDTH)/2, PADDLE_HEIGHT * 3, PADDLE_HEIGHT, PADDLE_WIDTH, "#DD9500");
+setInterval( gamely_sandbox, 10);
 delete(m_ball);
+delete(m_player);
+delete(m_enemy);
 //======================================================================================================================
