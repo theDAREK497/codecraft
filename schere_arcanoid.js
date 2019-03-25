@@ -1,13 +1,13 @@
 const canvas = document.getElementById("myCanvas");
 const ctx = canvas.getContext("2d");
-const RED_COLOR ="#FF0000";
+const RED_COLOR = "#FF0000";
 const START_PLAYER_COLOR = "#0095DD";
 const START_ENEMY_COLOR = "#DD9500";
-var New_Color_Player=START_PLAYER_COLOR;
-var New_Color_Enemy=START_ENEMY_COLOR;
-var New_Color_Ball=New_Color_Player;
-const PADDLE_HEIGHT=10;
-const PADDLE_WIDTH=75;
+var New_Color_Player = START_PLAYER_COLOR;
+var New_Color_Enemy = START_ENEMY_COLOR;
+var New_Color_Ball = New_Color_Player;
+const PADDLE_HEIGHT = 10;
+const PADDLE_WIDTH = 75;
 var mouse_x;
 var dx = 2;
 var dy = -2;
@@ -25,50 +25,52 @@ var live_player = 3;
 var Live_enemy = 3;
 
 let bricks = [];  //mass bricks
-for(var c=0; c<brickColumnCount; c++) {
-    bricks[c] = [];
-    for(var r=0; r<brickRowCount; r++) {
-        bricks[c][r] = { x: 0, y: 0, status: (Math.random()>0.5)? 1 : 0  };
+    for (var c = 0; c < brickColumnCount; c++) {
+        bricks[c] = [];
+        for (var r = 0; r < brickRowCount; r++) {
+            bricks[c][r] = {x: 0, y: 0, status: (Math.random() > 0.5) ? 1 : 0};
+        }
     }
-}
 
 class Paddle {
-    constructor(m_x, m_y, m_height, m_width, New_Color)
-    {
-        this.paddleHeight = m_height;
-        this.paddleWidth = m_width;
-        this.x = m_x;
-        this.y = m_y;
-        this.paddleColor=New_Color;
+        constructor(m_x, m_y, m_height, m_width, New_Color) {
+            this.paddleHeight = m_height;
+            this.paddleWidth = m_width;
+            this.x = m_x;
+            this.y = m_y;
+            this.paddleColor = New_Color;
+        }
+
+        drawPaddle() {
+            ctx.beginPath();
+            ctx.rect(this.x, this.y, this.paddleWidth, this.paddleHeight);
+            ctx.fillStyle = this.paddleColor;
+            ctx.fill();
+            ctx.closePath();
+        }
     }
-    drawPaddle() {
-        ctx.beginPath();
-        ctx.rect(this.x, this.y , this.paddleWidth, this.paddleHeight);
-        ctx.fillStyle =this.paddleColor;
-        ctx.fill();
-        ctx.closePath();
-    }
-}
 
 class Ball {
-    constructor(m_x, m_y) {
-        this.x = m_x;
-        this.y = m_y;
-        this.ballRadius=10;
-        this.ballColor="#0095DD";
+        constructor(m_x, m_y) {
+            this.x = m_x;
+            this.y = m_y;
+            this.ballRadius = 10;
+            this.ballColor = "#0095DD";
+        }
+
+        drawBall() {
+            ctx.beginPath();
+            ctx.arc(this.x, this.y, this.ballRadius, 0, Math.PI * 2);
+            ctx.fillStyle = this.ballColor;
+            ctx.fill();
+            ctx.closePath();
+        }
+
+        moveBall(dx, dy) {
+            this.x += dx;
+            this.y += dy;
+        }
     }
-    drawBall() {
-        ctx.beginPath();
-        ctx.arc(this.x, this.y, this.ballRadius, 0, Math.PI*2);
-        ctx.fillStyle = this.ballColor;
-        ctx.fill();
-        ctx.closePath();
-    }
-    moveBall(dx, dy){
-        this.x += dx;
-        this.y += dy;
-    }
-}
 
 document.addEventListener("keydown", keyDownHandler, false); //connect elements
 document.addEventListener("keyup", keyUpHandler, false);
@@ -80,11 +82,10 @@ document.addEventListener("mousemove", mouseMoveHandler, false);
  * @return {string}
  */
 function Random_Color() {
-    let result = 'rgb('
+    return 'rgb('
         + (Math.floor(Math.random() * 256)) + ','
         + (Math.floor(Math.random() * 256)) + ','
         + (Math.floor(Math.random() * 256)) + ')';
-    return result;
 }
 
 function sleep(ms) {
@@ -110,11 +111,7 @@ function keyUpHandler(e) {
     }
 }
 function mouseMoveHandler(e) {
-    let relativeX = e.clientX - canvas.offsetLeft;
-    // if(relativeX > PADDLE_WIDTH/2 && relativeX < canvas.width-PADDLE_WIDTH/2) {
-    //     mouse_x = relativeX - PADDLE_WIDTH/2;
-    // }
-    mouse_x = relativeX;
+    mouse_x = e.clientX - canvas.offsetLeft;
 }
 //======================================================================================================================
 // Draw objects
@@ -300,11 +297,10 @@ function gamely_sandbox() {    //typo javascript costili
     draw(m_ball, m_player, m_enemy);
 }
 //======================================================================================================================
-let m_ball = new Ball(canvas.width / 2, canvas.height - 30);
-let m_player = new Paddle((canvas.width-PADDLE_WIDTH)/2, canvas.height - PADDLE_HEIGHT * 3, PADDLE_HEIGHT, PADDLE_WIDTH, "#0095DD");
-let m_enemy = new Paddle((canvas.width-PADDLE_WIDTH)/2, PADDLE_HEIGHT * 3, PADDLE_HEIGHT, PADDLE_WIDTH, "#DD9500");
-setInterval( gamely_sandbox, 10);
-delete(m_ball);
-delete(m_player);
-delete(m_enemy);
-//======================================================================================================================
+let m_ball   = new Ball(canvas.width / 2, canvas.height - 30),
+    m_player = new Paddle((canvas.width - PADDLE_WIDTH) / 2, canvas.height - PADDLE_HEIGHT * 3, PADDLE_HEIGHT, PADDLE_WIDTH, "#0095DD"),
+    m_enemy  = new Paddle((canvas.width - PADDLE_WIDTH) / 2, PADDLE_HEIGHT * 3, PADDLE_HEIGHT, PADDLE_WIDTH, "#DD9500");
+setInterval(gamely_sandbox, 10);
+delete (m_ball);
+delete (m_player);
+delete (m_enemy);

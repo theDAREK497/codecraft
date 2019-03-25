@@ -9,6 +9,18 @@ canvas {
     margin: 0 auto;
 }
 
+.Main_Menu {
+    text-align: center;
+}
+
+.Main_Buttons {
+    margin: 0 auto;
+    cursor:pointer;
+    display:block;
+    height:5%;
+    width: 10%;
+}
+
 body {
     background: black;
 }
