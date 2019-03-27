@@ -21,6 +21,12 @@ canvas {
     width: 10%;
 }
 
+.restart_b{
+    display: none;
+    top:50%;
+    left:500px;
+}
+
 body {
     background: black;
 }
