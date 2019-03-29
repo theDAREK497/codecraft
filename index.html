@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8" />
+    <title>Tetris games</title>
+    <link rel="stylesheet" href="css/main.css" type="text/css" />
+</head>
+<body>
+<header>
+    <h2>100500 in one Tetris games</h2>
+</header>
+
+<div id="main_m">
+	<input id="btn_ar_st" class="m_button" type="button" value="Arcanoid Start" name="Arcanoid_button_start" OnClick="init_game_arc();" >  <br />  <br />
+	<input id="btn_ar_ex" class="m_button" type="button" value="Arcanoid Stop"  name="Arcanoid_button_stop"  OnClick="exit_game_arc();" >  <br />  <br />
+	<input id="btn_sn_st" class="m_button" type="button" value="Snake Start" 	name="Snake_button_start" 	 OnClick="init_game_sn();"  >  <br />  <br />
+	<input id="btn_sn_ex" class="m_button" type="button" value="Snake Stop" 	name="Snake_button_stop"	 OnClick="exit_game_sn();"  >
+<div>
+
+<canvas id="myCanvas" width="990px"  height="640px">Need HTML5</canvas>
+
+<!-- Main init -->
+<script src="js/apps/global_setting.js">			</script>
+<!-- Arcanoid init -->
+<script src="js/apps/arcanoid/setting_arcanoid.js"> </script>
+<script src="js/apps/arcanoid/draw_arcanoid.js">    </script>
+<script src="js/apps/arcanoid/game_arcanoid.js">    </script>
+<!-- Snake init -->
+<script src="js/apps/snake/setting_snake.js">		</script>
+<script src="js/apps/snake/draw_snake.js">		    </script>
+<script src="js/apps/snake/game_snake.js">		    </script>
+
+</body>
+</html>
