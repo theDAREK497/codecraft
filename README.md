@@ -1,6 +1,6 @@
 # Arcanoid Sandboxman 
 
-### [Open in github pages]()
+### [Open in github pages](https://thedarek497.github.io/sandboxman/)
 
 ## Description
 This is my test project  for leaning github and javascript.
