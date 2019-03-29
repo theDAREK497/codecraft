@@ -3,7 +3,7 @@
 ### [Open in github pages](https://thedarek497.github.io/sandboxman/)
 
 ## Description
-This is my test project  for leaning github and javascript.
+This is my test project  for leaning git and javascript.
 I would be pleased if you give advice or give your suggestions. 😄 
 
 P.s. And sorry for my english.. 😅 
