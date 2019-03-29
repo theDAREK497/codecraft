@@ -4,23 +4,24 @@
     <meta charset="utf-8" />
     <title>Tetris games</title>
     <link rel="stylesheet" href="css/main.css" type="text/css" />
-    
-
 </head>
 <body>
 <header>
     <h2>100500 in one Tetris games</h2>
 </header>
 
-<input type="button" value="Arcanoid Start" name="Arcanoid_button_start" OnClick="init_game();">
-<input type="button" value="Arcanoid Stop" name="Arcanoid_button_stop" OnClick="exit_game();">
-<canvas id="myCanvas" width="990px" height="640px" visible="false"></canvas>
-<canvas id="panel" width="1000px" height="100px">Need HTML5</canvas>
+<div id="main_m">
+	<input class="m_button" type="button" value="Arcanoid Start" name="Arcanoid_button_start" OnClick="init_game_arc();">
+	<input class="m_button" type="button" value="Arcanoid Stop"  name="Arcanoid_button_stop"  OnClick="exit_game_arc();">
+	<input class="m_button" type="button" value="Snake Start" 	 name="Snake_button_start" 	  OnClick="init_game_sn();" >
+	<input class="m_button" type="button" value="Snake Stop" 	 name="Snake_button_stop"	  OnClick="exit_game_sn();" >
+<div>
+<canvas id="myCanvas" width="990px"  height="640px">	      </canvas>
+<canvas id="panel" 	  width="1000px" height="100px">Need HTML5</canvas>
 
-<script src="js/main_menu.js"></script>   
-<script src="js/apps/arcanoid/schere_arcanoid.js">
-		
-</script>
+<script src="js/main_menu.js">						</script>   
+<script src="js/apps/arcanoid/schere_arcanoid.js">  </script>  
+<script src="js/apps/snake/schere_snake.js">		</script> 
 
 </body>
 </html>

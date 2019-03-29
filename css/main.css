@@ -65,3 +65,22 @@ header .stuts span {
     margin: 0 auto;
     width: 1000px;
 }
+
+.m_button {
+      background-color: blue;
+      color: white;
+      border: none;
+      bottom: 0;
+      height: 30px;
+      font-size: 12pt;
+      float: left;
+      width: 200px;
+      margin: 10px 0 0 0;
+    }
+    .m_button:hover {
+      background-color: skyblue;
+    }
+
+    .m_button:disabled {
+      background-color: grey;
+    }
