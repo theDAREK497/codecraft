@@ -10,12 +10,12 @@ const PADDLE_HEIGHT = 10;
 const PADDLE_WIDTH = 75;
 var mouse_x;
 var dx = 2;
-var dy = -2;
+var dy = -2
 var rightPressed = false;
 var leftPressed = false;
 var color_cout_damage; //damage timer
-var brickRowCount = 4;
-var brickColumnCount = 5;
+var brickRowCount = 5;
+var brickColumnCount = 11;
 var brickWidth = 75;
 var brickHeight = 20;
 var brickPadding = 10;
@@ -287,20 +287,23 @@ function draw(ball, player, enemy) {
         (enemy.x + enemy.paddleWidth/2 < ball.x - 2 || enemy.x + enemy.paddleWidth/2 > ball.x + 2)) {                   //==============================================//
         enemy.x -= 4;
     }
-
+    
     ball.moveBall(dx,dy);
 }
 //======================================================================================================================
 // Main path
 //======================================================================================================================
-function gamely_sandbox() {    //typo javascript costili
-    draw(m_ball, m_player, m_enemy);
+function init_game() {
+    var m_ball   = new Ball(canvas.width / 2, canvas.height - 30),
+      m_player = new Paddle((canvas.width - PADDLE_WIDTH) / 2, canvas.height - PADDLE_HEIGHT * 3, PADDLE_HEIGHT, PADDLE_WIDTH, "#0095DD"),
+      m_enemy  = new Paddle((canvas.width - PADDLE_WIDTH) / 2, PADDLE_HEIGHT * 3, PADDLE_HEIGHT, PADDLE_WIDTH, "#DD9500");
+    setInterval(function gamely_sandbox() { draw(m_ball, m_player, m_enemy) }, 10);    
 }
-//======================================================================================================================
-let m_ball   = new Ball(canvas.width / 2, canvas.height - 30),
-    m_player = new Paddle((canvas.width - PADDLE_WIDTH) / 2, canvas.height - PADDLE_HEIGHT * 3, PADDLE_HEIGHT, PADDLE_WIDTH, "#0095DD"),
-    m_enemy  = new Paddle((canvas.width - PADDLE_WIDTH) / 2, PADDLE_HEIGHT * 3, PADDLE_HEIGHT, PADDLE_WIDTH, "#DD9500");
-setInterval(gamely_sandbox, 10);
-delete (m_ball);
-delete (m_player);
-delete (m_enemy);
+
+function exit_game() {
+    ctx.clearRect(0, 0, canvas.width, canvas.height);
+    delete (m_ball);
+    delete (m_player);
+    delete (m_enemy);
+    document.location.reload();
+}
