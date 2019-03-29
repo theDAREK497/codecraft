@@ -1,12 +1,11 @@
+var snakeSize = 10;
+var score = 0;
+var snake;
 var food;
-
-class Snake {
-	constructor (m_x, m_y, m_size, m_color) { 
-		this.snake_x = m_x; //350;
-		this.snake_y = m_y; //350;
-		this.snake_score = 0;
-		this.player_snake;
-		this.snakeSize = m_size;//10;
-		this.snake_color;
-	}
-}
+var tail;
+var SNAKE_BODY_COLOR = START_PLAYER_COLOR;
+var SNAKE_SKIN_COLOR = START_PLAYER_COLOR;;
+var SNAK_BACKGROUND_COLOR = "rgb(208,244,210)";
+var SNAK_WALL_COLOR = START_WALL_COLOR;
+var FOOD_COLOR = RED_COLOR;
+var FOOD_AURA_COLOR = "#a6000a";

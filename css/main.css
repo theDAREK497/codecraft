@@ -2,10 +2,7 @@
     margin:0;
     padding:0;
 }
-@font-face {
-    font-family: 'DS-Digital';
-    src: url('../fonts/Ds-digib.ttf');
-}
+
 body {
     background-color: #b8c4ff;
     color: #bee1ff;
@@ -45,37 +42,41 @@ header .stuts span {
     font-weight:bold;
     margin-left:5px;
 }
-#panel {
-    display: block;
-    height: 100px;
-    margin: 50px auto 0;
-    width: 1000px;
-}
 
 #myCanvas {
-    height: 640px;
+    background: #4b4b4b;
+    /*display: block;*/
+    /*margin: 0 auto;*/
+    position: absolute;
+    top:10%;
+    left:25%;
     width: 990px;
-    background: #eeeeee;
-    display: block;
-    margin: 0 auto;
+    height: 640px;
+    background-color: white;
 }
 
-#image {
-    display: block;
-    margin: 0 auto;
-    width: 1000px;
+.main_m {
+    margin-left: 5px;
+    margin-top: 5px;
+    top: 10vh;
+    position: absolute;
+    float: left;
+    width: 6vw;
+    min-width: 80px;
+    height: 90vh;
+    min-height: 350px;
+    z-index: 999;
 }
 
 .m_button {
       background-color: blue;
       color: white;
-      border: none;
       bottom: 0;
       height: 30px;
-      font-size: 12pt;
+      font-size: 14pt;
       float: left;
       width: 200px;
-      margin: 10px 0 0 0;
+      margin: 0 auto;
     }
     .m_button:hover {
       background-color: skyblue;

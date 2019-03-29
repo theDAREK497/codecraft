@@ -3,6 +3,14 @@ function drawLives() {
     ctx.fillStyle = RED_COLOR;
     ctx.fillText("Your Lives: "+live_player, 10, 15);
 }
+
+function drawArea() {
+    ctx.fillStyle = ARCA_BACKGROUND_COLOR;
+    ctx.fillRect(0, 0, canvas.width, canvas.height);
+    ctx.strokeStyle = ARCA_WALL_COLOR;
+    ctx.strokeRect(0, 0, canvas.width, canvas.height);
+}
+
 function drawLives_enemy() {
     ctx.font = "16px Arial";
     ctx.fillStyle = RED_COLOR;

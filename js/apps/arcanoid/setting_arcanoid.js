@@ -1,6 +1,8 @@
 var New_Color_Player = START_PLAYER_COLOR;
 var New_Color_Enemy = START_ENEMY_COLOR;
 var New_Color_Ball = New_Color_Player;
+var ARCA_BACKGROUND_COLOR = "rgb(242,241,244)";
+var ARCA_WALL_COLOR = START_WALL_COLOR;
 const PADDLE_HEIGHT = 10;
 const PADDLE_WIDTH = 75;
 var mouse_x;
