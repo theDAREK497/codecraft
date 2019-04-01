@@ -195,6 +195,8 @@ function init_game_arc() {
     m_btn_ar_ex.disabled = false;
     m_btn_sn_st.disabled = true;
     m_btn_sn_ex.disabled = true;
+
+
     var m_ball   = new Ball(canvas.width / 2, canvas.height - 30),
       m_player = new Paddle((canvas.width - PADDLE_WIDTH) / 2, canvas.height - PADDLE_HEIGHT * 3, PADDLE_HEIGHT, PADDLE_WIDTH, "#0095DD"),
       m_enemy  = new Paddle((canvas.width - PADDLE_WIDTH) / 2, PADDLE_HEIGHT * 3, PADDLE_HEIGHT, PADDLE_WIDTH, "#DD9500");
