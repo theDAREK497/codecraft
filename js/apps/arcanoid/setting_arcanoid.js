@@ -20,6 +20,7 @@ var brickOffsetTop = 30;
 var brickOffsetLeft = 30;
 var live_player = 3;
 var Live_enemy = 3;
+var Enemy_dif;
 
 let bricks = [];  //mass bricks
     for (var c = 0; c < brickColumnCount; c++) {
@@ -67,4 +68,4 @@ class Ball {
             this.x += dx;
             this.y += dy;
         }
-    }
+	}
