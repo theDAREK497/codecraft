@@ -8,6 +8,7 @@ const RED_COLOR = "#FF0000";
 const START_PLAYER_COLOR = "#0095DD";
 const START_ENEMY_COLOR = "#DD9500";
 const START_WALL_COLOR = "#717171";
+var dif_r;
 
 m_btn_ar_st.disabled = false;
 m_btn_ar_ex.disabled = true;

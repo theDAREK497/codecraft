@@ -178,11 +178,11 @@ function draw(ball, player, enemy) {
                                                                                                                         // Enemy AI v1.0                                //
     if ((ball.x > enemy.x + enemy.paddleWidth/2 && enemy.x < canvas.width-enemy.paddleWidth) &&                         // Find ball                                    //
         (enemy.x + enemy.paddleWidth/2 < ball.x - 2 || enemy.x + enemy.paddleWidth/2 > ball.x + 2)) {                   // Blind area                                   //
-        enemy.x += 4;                                                                                                   // Move AI right                                //
+        enemy.x += Enemy_dif;                                                                                                   // Move AI right                                //
     }                                                                                                                   //==============================================//
     else if((ball.x < enemy.x + enemy.paddleWidth/2 && enemy.x > 0) &&                                                  // This is the same for moving to the left      //
         (enemy.x + enemy.paddleWidth/2 < ball.x - 2 || enemy.x + enemy.paddleWidth/2 > ball.x + 2)) {                   //==============================================//
-        enemy.x -= 4;
+        enemy.x -= Enemy_dif;
     }
     
     ball.moveBall(dx,dy);
@@ -195,6 +195,21 @@ function init_game_arc() {
     m_btn_ar_ex.disabled = false;
     m_btn_sn_st.disabled = true;
     m_btn_sn_ex.disabled = true;
+    dif_r = document.querySelector('input[name = radios]:checked').value;
+	switch(dif_r) {
+		case 'easy': 
+			Enemy_dif=1;
+			break;
+		case 'normal':  
+			Enemy_dif=4;
+			break;	
+		case 'hard':  
+			Enemy_dif=16;
+			break;
+		default:
+			Enemy_dif=4;
+			break;
+	};	
     var m_ball   = new Ball(canvas.width / 2, canvas.height - 30),
       m_player = new Paddle((canvas.width - PADDLE_WIDTH) / 2, canvas.height - PADDLE_HEIGHT * 3, PADDLE_HEIGHT, PADDLE_WIDTH, "#0095DD"),
       m_enemy  = new Paddle((canvas.width - PADDLE_WIDTH) / 2, PADDLE_HEIGHT * 3, PADDLE_HEIGHT, PADDLE_WIDTH, "#DD9500");
