@@ -14,6 +14,13 @@ var drawModule_snake = (function () {
         ctx.fillRect(x*snakeSize+1, y*snakeSize+1, snakeSize-2, snakeSize-2);
     };
 
+    var terrain = function(x, y) {
+        ctx.fillStyle = ROCK_AURA_COLOR;
+        ctx.fillRect(x*snakeSize, y*snakeSize, snakeSize, snakeSize);
+        ctx.fillStyle = ROCK_COLOR;
+        ctx.fillRect(x*snakeSize+1, y*snakeSize+1, snakeSize-2, snakeSize-2);
+    };
+
     var scoreText = function() {
         var score_text = "Score: " + score;
         ctx.fillStyle = RED_COLOR;
@@ -47,12 +54,23 @@ var drawModule_snake = (function () {
             snakeY++; }
 
         if (snakeX === -1 || snakeX === canvas.width/snakeSize || snakeY === -1 || snakeY === canvas.height/snakeSize || checkCollision(snakeX, snakeY, snake)) {
-            //restart game
+            //restart game 
             ctx.clearRect(0,0,canvas.width,canvas.height);
             gameloop = clearInterval(gameloop);
             alert("GAME OVER");
             document.location.reload();
             return;
+        }
+
+        for (var j = dif_terra-1; j>=0; j--) {   
+            if (snakeX === terraland[j].x && snakeY === terraland[j].y) {
+                //restart game 
+               ctx.clearRect(0,0,canvas.width,canvas.height);
+               gameloop = clearInterval(gameloop);
+               alert("GAME OVER");
+               document.location.reload();
+               return;
+            }
         }
 
         if(snakeX === food.x && snakeY === food.y) {
@@ -70,6 +88,10 @@ var drawModule_snake = (function () {
 
         for(var i = 0; i < snake.length; i++) {
             bodySnake(snake[i].x, snake[i].y);
+        }        
+
+        for (var j = dif_terra-1; j>=0; j--) {    
+            terrain(terraland[j].x, terraland[j].y);
         }
 
         apple(food.x, food.y);
@@ -89,7 +111,35 @@ var drawModule_snake = (function () {
             if (food.x===snakeX && food.y === snakeY || food.y === snakeY && food.x===snakeX) {
                 food.x = Math.floor((Math.random() * (canvas.width /10-1)) + 1);
                 food.y = Math.floor((Math.random() * (canvas.height/10-1)) + 1);
+                for (var j = dif_terra-1; j>=0; j--) {
+                    if (food.x===terraland[j].x && food.y === terraland[j].y || food.y === terraland[j].y && food.x===terraland[j].x) {
+                         food.x = Math.floor((Math.random() * (canvas.width /10-1)) + 1);
+                         food.y = Math.floor((Math.random() * (canvas.height/10-1)) + 1);
+                    }
+                }
             }
+        }
+    };
+
+    var createTerrain = function() {
+        terraland = [];
+        for (var j = dif_terra-1; j>=0; j--) {       
+                terraland[j] = {
+                  x: Math.floor((Math.random() * (canvas.width /10-1)) + 1),
+                  y: Math.floor((Math.random() * (canvas.height/10-1)) + 1)
+                };
+            for (var i=0; i>snake.length; i++) {
+               var snakeX = snake[i].x;
+               var snakeY = snake[i].y;
+               if (terraland[j].x===snakeX && terraland[j].y === snakeY || terraland[j].y === snakeY && terraland[j].x===snakeX) {
+                   terraland[j].x = Math.floor((Math.random() * (canvas.width /10-1)) + 1);
+                   terraland[j].y = Math.floor((Math.random() * (canvas.height/10-1)) + 1);
+                   if (terraland[j].x===food.x && terraland[j].y === food.y || terraland[j].y === food.y && terraland[j].x===food.x) {
+                         terraland[j].x = Math.floor((Math.random() * (canvas.width /10-1)) + 1);
+                         terraland[j].y = Math.floor((Math.random() * (canvas.height/10-1)) + 1);
+                   }
+               }
+           }
         }
     };
 
@@ -102,10 +152,11 @@ var drawModule_snake = (function () {
     };
 
     var init = function(snake){
-        direction = 'down';
+        direction = 'down';        
         drawSnake();
         createFood();
-        gameloop = setInterval(paint, 80);
+        createTerrain();
+        gameloop = setInterval(paint, inter_time);
     };
 
 

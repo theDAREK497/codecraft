@@ -195,15 +195,16 @@ function init_game_arc() {
     m_btn_ar_ex.disabled = false;
     m_btn_sn_st.disabled = true;
     m_btn_sn_ex.disabled = true;
+    dif_r = document.querySelector('input[name = radios]:checked').value;
 	switch(dif_r) {
 		case 'easy': 
-			Enemy_dif=0;
+			Enemy_dif=1;
 			break;
 		case 'normal':  
 			Enemy_dif=4;
 			break;	
 		case 'hard':  
-			Enemy_dif=6;
+			Enemy_dif=16;
 			break;
 		default:
 			Enemy_dif=4;

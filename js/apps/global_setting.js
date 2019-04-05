@@ -10,8 +10,6 @@ const START_ENEMY_COLOR = "#DD9500";
 const START_WALL_COLOR = "#717171";
 var dif_r;
 
-dif_r = document.querySelector('input[name = "radios"]:checked').value;
-
 m_btn_ar_st.disabled = false;
 m_btn_ar_ex.disabled = true;
 m_btn_sn_st.disabled = false;
