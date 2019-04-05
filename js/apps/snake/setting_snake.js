@@ -5,6 +5,8 @@ var food;
 var tail;
 var dif_terra;
 var terraland;
+var count_blur_apple = 2;
+var count_blur_apple_up=true;
 var SNAKE_BODY_COLOR = START_PLAYER_COLOR;
 var SNAKE_SKIN_COLOR = START_PLAYER_COLOR;
 var SNAK_BACKGROUND_COLOR = "rgb(208,244,210)";

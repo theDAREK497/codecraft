@@ -9,7 +9,8 @@ I would be pleased if you give advice or give your suggestions. 😄
 P.s. And sorry for my english.. 😅 
 
 ## Main screen
-![Menu](https://user-images.githubusercontent.com/42811020/55243938-3b2acc80-5251-11e9-8458-92829b63f8aa.PNG)
+![Menu](https://user-images.githubusercontent.com/42811020/55632138-50a87500-57c2-11e9-8d7f-dbba619e11a3.png)
+
 
 ## Arcanoid
 ### Controls
@@ -34,6 +35,7 @@ P.s. And sorry for my english.. 😅
 - You win... No you can't win 😄
 - You lose if you hit wall or your body
 - Eat pixel on the ground
-![Snake](https://user-images.githubusercontent.com/42811020/55243930-3534eb80-5251-11e9-8d9f-d8589bcd2052.PNG)
+![Snake](https://user-images.githubusercontent.com/42811020/55632093-34a4d380-57c2-11e9-91fb-2a6c3e703b6a.png)
+
 
 ### [Open in github pages](https://thedarek497.github.io/sandboxman/)

@@ -1,13 +1,29 @@
 var drawModule_snake = (function () {
 
     var bodySnake = function(x, y) {
+        ctx.shadowBlur = 2;
+        ctx.shadowColor = SNAKE_BODY_COLOR;
         ctx.fillStyle = SNAKE_BODY_COLOR;
         ctx.fillRect(x*snakeSize, y*snakeSize, snakeSize, snakeSize);
-        ctx.strokeStyle = SNAKE_SKIN_COLOR;
+        ctx.strokeStyle = SNAKE_SKIN_COLOR;        
         ctx.strokeRect(x*snakeSize, y*snakeSize, snakeSize, snakeSize);
     };
 
-    var apple = function(x, y) {
+    var apple = function(x, y) {        
+        if (count_blur_apple_up) {
+            count_blur_apple++;
+            if (count_blur_apple >= 20) {
+               count_blur_apple_up=false; 
+            }
+        }      
+        else {
+            count_blur_apple--;
+            if (count_blur_apple <= 2) {
+               count_blur_apple_up=true; 
+            }
+        }
+        ctx.shadowBlur = count_blur_apple;
+        ctx.shadowColor = RED_COLOR;
         ctx.fillStyle = FOOD_AURA_COLOR;
         ctx.fillRect(x*snakeSize, y*snakeSize, snakeSize, snakeSize);
         ctx.fillStyle = FOOD_COLOR;
@@ -15,6 +31,8 @@ var drawModule_snake = (function () {
     };
 
     var terrain = function(x, y) {
+        ctx.shadowBlur = 2;
+        ctx.shadowColor = ROCK_AURA_COLOR;
         ctx.fillStyle = ROCK_AURA_COLOR;
         ctx.fillRect(x*snakeSize, y*snakeSize, snakeSize, snakeSize);
         ctx.fillStyle = ROCK_COLOR;
@@ -22,6 +40,7 @@ var drawModule_snake = (function () {
     };
 
     var scoreText = function() {
+        ctx.shadowBlur = 0;
         var score_text = "Score: " + score;
         ctx.fillStyle = RED_COLOR;
         ctx.fillText(score_text, 10, 15);
@@ -36,6 +55,7 @@ var drawModule_snake = (function () {
     };
 
     var paint = function(){
+        ctx.shadowBlur = 0;
         ctx.fillStyle = SNAK_BACKGROUND_COLOR;
         ctx.fillRect(0, 0, canvas.width, canvas.height);
         ctx.strokeStyle = SNAK_WALL_COLOR;
