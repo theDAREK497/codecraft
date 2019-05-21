@@ -204,7 +204,7 @@ function init_game_arc() {
 			Enemy_dif=4;
 			break;	
 		case 'hard':  
-			Enemy_dif=16;
+			Enemy_dif=6;
 			break;
 		default:
 			Enemy_dif=4;
