@@ -51,6 +51,5 @@ The project is distributed under the MIT license. Details in the file [LICENSE](
 ---
 
 ## 📬 Communication
-Author: [Darek](https://github.com/thedarek497 )  
-Email: [darek@example.com](mailto:darek@example.com)  
+Author: [Darek](https://github.com/thedarek497 ) 
 Project: [GitHub Project](https://github.com/thedarek497/sandboxman )
