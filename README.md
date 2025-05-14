@@ -1,13 +1,13 @@
-# 🎮 Sandboxman [![GitHub version](https://badge.fury.io/gh/thedarek497%2Fsandboxman.svg )](https://badge.fury.io/gh/thedarek497%2Fsandboxman )
+# 🎮 Sandboxman
 
-### [▶️ Play Online](https://thedarek497.github.io/sandboxman/ ) | [📦 GitHub Pages](https://github.com/thedarek497/sandboxman )
+### [▶️ Play Online](https://thedarek497.github.io/codecraft/ ) | [📦 GitHub Pages](https://github.com/thedarek497/codecraft )
 
 ## About
 > Mini-games designed for learning Git and JavaScript. Simple and clear interface adapted for modern browsers.
 
 This project demonstrates basic front-end application development skills using pure JavaScript, HTML5 and CSS3. All games are united by a common style and control system.
 
-[![](https://user-images.githubusercontent.com/42811020/55632138-50a87500-57c2-11e9-8d7f-dbba619e11a3.png )](https://thedarek497.github.io/sandboxman/ )
+[![](https://user-images.githubusercontent.com/42811020/55632138-50a87500-57c2-11e9-8d7f-dbba619e11a3.png )](https://thedarek497.github.io/codecraft/ )
 
 ---
 
@@ -52,4 +52,4 @@ The project is distributed under the MIT license. Details in the file [LICENSE](
 
 ## 📬 Communication
 Author: [Darek](https://github.com/thedarek497 ) 
-Project: [GitHub Project](https://github.com/thedarek497/sandboxman )
+Project: [GitHub Project](https://github.com/thedarek497/codecraft )
