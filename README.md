@@ -1,41 +1,56 @@
-# Sandboxman 
+# 🎮 Sandboxman [![GitHub version](https://badge.fury.io/gh/thedarek497%2Fsandboxman.svg )](https://badge.fury.io/gh/thedarek497%2Fsandboxman )
 
-### [Open in github pages](https://thedarek497.github.io/sandboxman/)
+### [▶️ Play Online](https://thedarek497.github.io/sandboxman/ ) | [📦 GitHub Pages](https://github.com/thedarek497/sandboxman )
 
-## Description
-This is my test project  for leaning git and javascript.
-I would be pleased if you give advice or give your suggestions. 😄 
+## About
+> Mini-games designed for learning Git and JavaScript. Simple and clear interface adapted for modern browsers.
 
-P.s. And sorry for my english.. 😅 
+This project demonstrates basic front-end application development skills using pure JavaScript, HTML5 and CSS3. All games are united by a common style and control system.
 
-## Main screen
-![Menu](https://user-images.githubusercontent.com/42811020/55632138-50a87500-57c2-11e9-8d7f-dbba619e11a3.png)
+[![](https://user-images.githubusercontent.com/42811020/55632138-50a87500-57c2-11e9-8d7f-dbba619e11a3.png )](https://thedarek497.github.io/sandboxman/ )
 
+---
 
-## Arcanoid
-### Controls
-- ➡️ : move paddle right
-- ⬅️ : move paddle left
-- 🖱  : If the mouse is in playing area, the paddle follows it. 
+## 🎯 Available games
 
-### Mission
-- You win if enemy lost all his lives
-- You lose if you lost your lives
-- Lives is reduced if the ball flies for a paddle.
+### 🏓 Arkanoid
+**Control:**
+- ➡️ ← → : Platform movement
+- 🖱️ : Following the cursor (in the play area)
+
+**Objective:**
+- 🏆 Victory: Destroy all blocks
+- 💀 Defeat: Lose all lives (ball goes behind the platform)
+  
 ![Arcanoid](https://user-images.githubusercontent.com/42811020/55243900-26e6cf80-5251-11e9-92b2-1654b8f8a239.PNG)
+---
 
-## Snake
-### Controls
-- → : move paddle right
-- ← : move paddle left
-- ↑ : move paddle up
-- ↓ : move paddle down
+### 🐍 Snake
+**Control:**
+- ⬆⬇⬅➡ : Move snake.
 
-### Mission
-- You win... No you can't win 😄
-- You lose if you hit wall or your body
-- Eat pixel on the ground
+### Objective:###
+- 🍎 Collect food on the field
+- ⚠️ Avoid collisions with walls and your body
+- 🏅 Try to get the highest score!
+  
 ![Snake](https://user-images.githubusercontent.com/42811020/55632093-34a4d380-57c2-11e9-91fb-2a6c3e703b6a.png)
+---
 
+## 🔧 Features
+- ✅ Pure JavaScript (no frameworks)
+- 💡 Simple MVC architecture
+- 📱 Adaptive design
+- 📊 Record system (localStorage)
+- 🎨 Minimalistic UI
+---
 
-### [Open in github pages](https://thedarek497.github.io/sandboxman/)
+## 📄 License
+The project is distributed under the MIT license. Details in the file [LICENSE](LICENSE).
+
+---
+
+## 📬 Communication
+Author: [Darek](https://github.com/thedarek497 )  
+Email: [darek@example.com](mailto:darek@example.com)  
+Project: [GitHub Project](https://github.com/thedarek497/sandboxman )
