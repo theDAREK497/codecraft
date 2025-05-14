@@ -1,4 +1,4 @@
-# 🎮 Sandboxman
+# 🎮 Sandboxman [![GitHub version](https://badge.fury.io/gh/theDAREK497%2Fcodecraft.svg)](https://badge.fury.io/gh/theDAREK497%2Fcodecraft)
 
 ### [▶️ Play Online](https://thedarek497.github.io/codecraft/ ) | [📦 GitHub Pages](https://github.com/thedarek497/codecraft )
 
